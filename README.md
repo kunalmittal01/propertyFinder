@@ -5,7 +5,7 @@ Welcome to the **Property Finder** web application! This project is designed to 
 ---
 
 ## 🚀 Live Demo  
-Check out the live version of the project here: [Property Finder](#) *(Add your deployed link here)*  
+Check out the live version of the project here: [https://kunals-realestate.netlify.app/](#) 
 
 ---
 
@@ -78,3 +78,4 @@ Navigate back anytime to view your saved properties.
 
 ## 📜 License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
