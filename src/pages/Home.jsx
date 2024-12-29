@@ -4,7 +4,6 @@ import payload from '../assets/payload'
 import Property from '../components/Property'
 import { toast } from 'react-toastify'
 import { Pagination } from '@mui/material'
-import BasicPagination from '../components/Pagination'
 
 const Home = () => {
     const [query, setQuery] = useState({
