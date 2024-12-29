@@ -5,7 +5,7 @@ Welcome to the **Property Finder** web application! This project is designed to 
 ---
 
 ## 🚀 Live Demo  
-Check out the live version of the project here: [https://kunals-realestate.netlify.app/](#) 
+Check out the live version of the project here: [propertyFinder](https://kunals-realestate.netlify.app/) 
 
 ---
 
