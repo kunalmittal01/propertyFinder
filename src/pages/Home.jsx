@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar'
 import payload from '../assets/payload'
 import Property from '../components/Property'
 import { toast } from 'react-toastify'
+import { Pagination } from '@mui/material'
+import BasicPagination from '../components/Pagination'
 
 const Home = () => {
     const [query, setQuery] = useState({
@@ -16,6 +18,8 @@ const Home = () => {
         type: '',
         price: '0-0'
     });
+    const itemsPerPage = 6;
+    const [currentPage, setCurrentPage] = useState(1);
     const [added, setAdded] = useState(JSON.parse(localStorage.getItem('added')) || {});
     const handleQuery = (e) => {
         setQuery({...query, [e.target.name]: e.target.value })
@@ -23,6 +27,9 @@ const Home = () => {
     const handleSearch = () => {
         setInp(query);
     }
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage);
+    };
     const handleFav = (id) => {
         const index = payload.findIndex(data => data.name==id);
         const fav = JSON.parse(localStorage.getItem('fav')) || [];
@@ -58,14 +65,17 @@ const Home = () => {
             return property.city?.toLowerCase().includes(inp.location?.toLowerCase()) &&
             property.type.split(' ')[1]?.toLowerCase().includes(inp.type?.toLowerCase()) &&
             property.price >= minPrice && (maxPrice == 0 || property.price <= maxPrice) 
-        }).map(payload => {
-            return <Property added={added} fav={handleFav} key={payload.name} {...payload} />
         })
-        setProperties(data);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedData = data.slice(startIndex, endIndex);
+        setProperties(paginatedData.map(payload => {
+            return <Property added={added} fav={handleFav} key={payload.name} {...payload} />
+        }));
     }
     useEffect(()=>{
         propertyDisplay();
-    },[inp])
+    },[inp, currentPage])
   return (
     <>
         <Navbar />
@@ -86,12 +96,11 @@ const Home = () => {
                     <p className='text-gray-500 font-medium'>Price</p>
                     <select value={query.price} onChange={handleQuery} name="price" id="">
                         <option value="0-0">Any</option>
+                        <option value="100-500">$100 - $500</option>
+                        <option value="500-1000">$500 - $1000</option>
                         <option value="1000-2000">$1000 - $2000</option>
                         <option value="2000-3000">$2000 - $3000</option>
                         <option value="3000-4000">$3000 - $4000</option>
-                        <option value="4000-5000">$4000 - $5000</option>
-                        <option value="5000-6000">$5000 - $6000</option>
-                        <option value="6000-7000">$6000 - $7000</option>
                     </select>
                 </div>
                 <div className="divider divider h-8 w-1 bg-slate-200"></div>
@@ -113,7 +122,25 @@ const Home = () => {
                 {properties.length == 0 ? <div className='flex justify-center w-full items-center h-64 text-2xl'>No Results Found!</div> : properties}
             </div>
         </div>
-        
+        <div className="pagination-wrap flex justify-center mt-6">
+          <Pagination
+            count={Math.ceil(payload.filter((property) => {
+              const minPrice = Number(inp.price.split('-')[0]);
+              const maxPrice = Number(inp.price.split('-')[1]);
+
+              return (
+                property.city?.toLowerCase().includes(inp.location?.toLowerCase()) &&
+                property.type.split(' ')[1]?.toLowerCase().includes(inp.type?.toLowerCase()) &&
+                property.price >= minPrice &&
+                (maxPrice == 0 || property.price <= maxPrice)
+              );
+            }).length / itemsPerPage)} // Calculate total pages
+            page={currentPage}
+            onChange={handlePageChange}
+            variant="outlined"
+            shape="rounded"
+          />
+        </div>
     </>
   )
 }

@@ -58,6 +58,7 @@ nav p a:hover {
 .home-wrap {
   max-width: 65rem;
   width: 90%;
+  margin-bottom: 5rem;
 }
 
 .property {
@@ -68,8 +69,13 @@ nav p a:hover {
   width: 400px;
   height: 300px;
   object-fit: cover;
+  margin-bottom: 2rem;
 }
 
 .fav-cont {
   max-width: 48rem;
+}
+
+.MuiPagination-outlined {
+  background-color: #e7dede;
 }
